@@ -532,3 +532,21 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int
+getParentID(){
+  int  parentPid;
+  struct proc *curproc = myproc();
+  parentPid = curproc->parent->pid;
+  return parentPid;
+
+}
+int 
+getChildren(){
+  //TODO
+}
+int 
+getSyscsllCounter(){
+  //TODO
+}
+
