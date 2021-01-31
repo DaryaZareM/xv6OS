@@ -89,3 +89,16 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int sys_getParentID(void)
+{
+  return getParentID();
+}
+int sys_getChildren(void)
+{
+  return getChildren();
+}
+int sys_getSyscsllCounter(void)
+{
+  return getSyscsllCounter();
+}
