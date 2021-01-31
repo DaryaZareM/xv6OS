@@ -533,12 +533,6 @@ procdump(void)
   }
 }
 
-<<<<<<< HEAD
-int getparentid()
-{
-  return 12;
-}
-=======
 int
 getParentID(){
   int  parentPid;
@@ -558,4 +552,3 @@ getSyscallCounter(){
   return 5;//5 is for not get error of "null return"
 }
 
->>>>>>> 03c95ef8884472dc06c6b9ce3d39bd47181d5b15

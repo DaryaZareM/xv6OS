@@ -3,6 +3,7 @@
 #include "user.h"
 
 int main(){
-    printf(1, "code is: %d\n", getparentid());
+    printf(1, "Parent id is: %d\n", getParentID());
+    exit();
     return 0;
 }

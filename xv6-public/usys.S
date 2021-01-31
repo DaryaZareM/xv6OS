@@ -29,10 +29,6 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
-<<<<<<< HEAD
-SYSCALL(getparentid)
-=======
 SYSCALL(getParentID)
 SYSCALL(getChildren)
 SYSCALL(getSyscallCounter)
->>>>>>> 03c95ef8884472dc06c6b9ce3d39bd47181d5b15

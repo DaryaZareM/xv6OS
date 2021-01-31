@@ -90,14 +90,6 @@ sys_uptime(void)
   return xticks;
 }
 
-<<<<<<< HEAD
-int 
-sys_getparentid(void)
-{
-  return getparentid();
-}
-
-=======
 int sys_getParentID(void)
 {
   return getParentID();
@@ -110,4 +102,3 @@ int sys_getSyscallCounter(void)
 {
   return getSyscallCounter();
 }
->>>>>>> 03c95ef8884472dc06c6b9ce3d39bd47181d5b15
