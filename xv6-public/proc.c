@@ -544,9 +544,11 @@ getParentID(){
 int 
 getChildren(){
   //TODO
+  return 5;//5 is for not get error of "null return"
 }
 int 
 getSyscsllCounter(){
   //TODO
+  return 5;//5 is for not get error of "null return"
 }
 
