@@ -120,7 +120,13 @@ void            userinit(void);
 int             wait(void);
 void            wakeup(void*);
 void            yield(void);
+<<<<<<< HEAD
 int             getparentid(void);
+=======
+int             getParentID(void);
+int             getChildren(void);//TODO return array of ints
+int             getSyscallCounter(void);
+>>>>>>> 03c95ef8884472dc06c6b9ce3d39bd47181d5b15
 
 // swtch.S
 void            swtch(struct context**, struct context*);

@@ -533,7 +533,29 @@ procdump(void)
   }
 }
 
+<<<<<<< HEAD
 int getparentid()
 {
   return 12;
 }
+=======
+int
+getParentID(){
+  int  parentPid;
+  struct proc *curproc = myproc();
+  parentPid = curproc->parent->pid;
+  return parentPid;
+
+}
+int 
+getChildren(){
+  //TODO
+  return 5;//5 is for not get error of "null return"
+}
+int 
+getSyscallCounter(){
+  //TODO
+  return 5;//5 is for not get error of "null return"
+}
+
+>>>>>>> 03c95ef8884472dc06c6b9ce3d39bd47181d5b15
