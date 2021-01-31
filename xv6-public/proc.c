@@ -547,7 +547,7 @@ getChildren(){
   return 5;//5 is for not get error of "null return"
 }
 int 
-getSyscsllCounter(){
+getSyscallCounter(){
   //TODO
   return 5;//5 is for not get error of "null return"
 }

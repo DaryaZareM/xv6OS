@@ -95,10 +95,10 @@ int sys_getParentID(void)
   return getParentID();
 }
 int sys_getChildren(void)
-{
+{ //TODO return val array of ints
   return getChildren();
 }
-int sys_getSyscsllCounter(void)
+int sys_getSyscallCounter(void)
 {
-  return getSyscsllCounter();
+  return getSyscallCounter();
 }
