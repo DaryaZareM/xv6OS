@@ -532,3 +532,8 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+int getparentid()
+{
+  return 12;
+}
