@@ -24,7 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getParentID(void);
-int getChildren(void);//TODO return array of ints
+int * getChildren(void);//TODO DONE
 int getSyscallCounter(void);
 
 // ulib.c

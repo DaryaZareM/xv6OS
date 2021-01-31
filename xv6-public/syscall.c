@@ -104,7 +104,7 @@ extern int sys_wait(void);
 extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getParentID(void);
-extern int sys_getChildren(void);//TODO //it most return an array of ints
+extern int * sys_getChildren(void);//TODO //DONE
 extern int sys_getSyscallCounter(void);
 
 static int (*syscalls[])(void) = {

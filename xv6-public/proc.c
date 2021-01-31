@@ -541,11 +541,36 @@ getParentID(){
   return parentPid;
 
 }
-int 
+int *
 getChildren(){
-  //TODO
-  return 5;//5 is for not get error of "null return"
+    int pids[64];
+    struct proc *curproc = myproc();
+    struct proc *p;
+    int count = 0;
+    int currentPID;
+
+    currentPID = curproc->pid;
+
+    int i=0;
+    for(i;i<64;i++){
+      pids[i]=-1;
+    }
+
+    acquire(&ptable.lock);
+
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->parent->pid == currentPID){
+        pids[count]=p->pid;
+        count++;
+      }
+    }
+
+    release(&ptable.lock);
+
+    return pids;
 }
+
+
 int 
 getSyscallCounter(){
   //TODO
