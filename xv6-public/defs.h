@@ -122,7 +122,7 @@ void            wakeup(void*);
 void            yield(void);
 int             getParentID(void);
 int             getChildren(void);//TODO return array of ints
-int             getSyscallCounter(void);
+int             getSyscallCounter(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

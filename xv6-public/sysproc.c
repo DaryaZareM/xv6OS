@@ -98,7 +98,11 @@ int sys_getChildren(void)
 { //TODO return val array of ints
   return getChildren();
 }
-int sys_getSyscallCounter(void)
+
+int 
+sys_getSyscallCounter(void)
 {
-  return getSyscallCounter();
+  int sysCallID;
+  argint(0, &sysCallID);
+  return getSyscallCounter(sysCallID);
 }

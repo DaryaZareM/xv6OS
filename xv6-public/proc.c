@@ -141,7 +141,10 @@ userinit(void)
 
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
-
+  // set number of called sysCalls to zero
+  for(int i=0; i < 50; i++){
+    p->syscallCount[i] = 0; 
+  }
   // this assignment to p->state lets other cores
   // run this process. the acquire forces the above
   // writes to be visible, and the lock is also needed
@@ -547,8 +550,10 @@ getChildren(){
   return 5;//5 is for not get error of "null return"
 }
 int 
-getSyscallCounter(){
-  //TODO
-  return 5;//5 is for not get error of "null return"
+getSyscallCounter(int sysID){
+  int sysCount;
+  struct proc *curproc = myproc();
+  sysCount = curproc->syscallCount[sysID];
+  return sysCount;
 }
 
