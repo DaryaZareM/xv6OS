@@ -9,6 +9,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct childrenArray;
 
 // bio.c
 void            binit(void);
@@ -121,7 +122,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int             getParentID(void);
-int             getChildren(void);//TODO return array of ints
+int             getChildren(struct childrenArray*);
 int             getSyscallCounter(int);
 
 // swtch.S

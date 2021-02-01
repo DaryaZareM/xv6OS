@@ -6,6 +6,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "childrenArray.h"
 
 int
 sys_fork(void)
@@ -95,8 +96,11 @@ int sys_getParentID(void)
   return getParentID();
 }
 int sys_getChildren(void)
-{ //TODO return val array of ints
-  return getChildren();
+{ 
+  struct childrenArray *cha;
+  if(argptr(1, (void*)&cha, sizeof(*cha)) < 0)
+    return -1;
+  return getChildren(cha);
 }
 
 int 
@@ -106,3 +110,4 @@ sys_getSyscallCounter(void)
   argint(0, &sysCallID);
   return getSyscallCounter(sysCallID);
 }
+

@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "childrenArray.h"
 
 struct {
   struct spinlock lock;
@@ -544,11 +545,40 @@ getParentID(){
   return parentPid;
 
 }
-int 
-getChildren(){
-  //TODO
-  return 5;//5 is for not get error of "null return"
+int
+getChildren(struct childrenArray* childs){
+    
+    struct proc *curproc = myproc();
+    struct proc *p;
+    int count = 0;
+    int currentPID;
+    currentPID = curproc->pid;
+
+    acquire(&ptable.lock);
+
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->parent->pid == currentPID){
+        childs->children[count] = p->pid;
+        count++;
+      }
+    }
+    childs->len = count;
+    
+    release(&ptable.lock);
+
+    //print:
+    int it = 0;
+    while(it<childs->len){
+      cprintf(" %d/",childs->children[it]);
+      it++;
+    }
+    
+    
+
+    return 1;
 }
+
+
 int 
 getSyscallCounter(int sysID){
   int sysCount;
