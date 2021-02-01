@@ -1,5 +1,7 @@
 struct stat;
 struct rtcdate;
+struct childrenArray;
+
 
 // system calls
 int fork(void);
@@ -24,7 +26,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getParentID(void);
-int * getChildren(void);//TODO DONE
+int getChildren(struct childrenArray*);
 int getSyscallCounter(void);
 
 // ulib.c
