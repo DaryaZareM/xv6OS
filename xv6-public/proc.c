@@ -622,8 +622,6 @@ getChildren(struct childrenArray* childs){
       it++;
     }
     
-    
-
     return 1;
 }
 
@@ -636,3 +634,22 @@ getSyscallCounter(int sysID){
   return sysCount;
 }
 
+// Change Process priority
+
+
+int
+setPriority(int priority)
+{
+  struct proc *curproc = myproc();
+  struct proc *p;
+
+  if (priority>0 && priority<7)
+    curproc->priority = priority;
+  else
+  {
+    curproc->priority = 5;
+  }
+  
+
+  return curproc->priority;
+}
