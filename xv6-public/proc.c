@@ -358,6 +358,55 @@ scheduler(void)
 
   }
 }
+void
+schedulerpriority(void)
+{
+  struct proc *p;
+  struct cpu *c = mycpu();
+  c->proc = 0;
+  
+  for(;;){
+    // Enable interrupts on this processor.
+    sti();
+
+    // Loop over process table looking for process to run.
+    acquire(&ptable.lock);
+
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      struct proc *highP = 0;
+      struct proc *p1 = 0;
+
+      if(p->state != RUNNABLE)
+        continue;
+
+      // Choose the process with highest priority (among RUNNABLEs)
+      highP = p;
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if((p1->state == RUNNABLE) && (highP->priority < p1->priority))
+          highP = p1;
+      }
+      if(highP != 0)
+        p = highP;
+  
+      // Switch to chosen process.  It is the process's job
+      // to release ptable.lock and then reacquire it
+      // before jumping back to us.
+      c->proc = p;
+      switchuvm(p);
+      p->state = RUNNING;
+
+      swtch(&(c->scheduler), p->context);
+      switchkvm();
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+    }
+    release(&ptable.lock);
+
+  }
+}
+
 
 // Enter scheduler.  Must hold only ptable.lock
 // and have changed proc->state. Saves and restores
@@ -573,8 +622,6 @@ getChildren(struct childrenArray* childs){
       it++;
     }
     
-    
-
     return 1;
 }
 
@@ -587,3 +634,22 @@ getSyscallCounter(int sysID){
   return sysCount;
 }
 
+// Change Process priority
+
+
+int
+setPriority(int priority)
+{
+  struct proc *curproc = myproc();
+  struct proc *p;
+
+  if (priority>0 && priority<7)
+    curproc->priority = priority;
+  else
+  {
+    curproc->priority = 5;
+  }
+  
+
+  return curproc->priority;
+}
