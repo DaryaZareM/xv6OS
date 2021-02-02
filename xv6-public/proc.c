@@ -89,6 +89,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = 3;
 
   release(&ptable.lock);
 
@@ -641,15 +642,18 @@ int
 setPriority(int priority)
 {
   struct proc *curproc = myproc();
-  struct proc *p;
+
+  cprintf("priority was : %d\n",curproc->priority);
 
   if (priority>0 && priority<7)
     curproc->priority = priority;
   else
   {
     curproc->priority = 5;
+    priority = 5;
   }
   
+  cprintf("now priority is : %d\n",curproc->priority);
 
-  return curproc->priority;
+  return priority;
 }

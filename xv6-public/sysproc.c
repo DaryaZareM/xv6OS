@@ -111,3 +111,10 @@ sys_getSyscallCounter(void)
   return getSyscallCounter(sysCallID);
 }
 
+int
+sys_setPriority(void){
+  int priority;
+  argint(0, &priority);
+  return setPriority(priority);
+
+}
