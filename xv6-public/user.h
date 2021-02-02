@@ -28,6 +28,7 @@ int uptime(void);
 int getParentID(void);
 int getChildren(struct childrenArray*);
 int getSyscallCounter(int);
+int setPriority(int);
 
 // ulib.c
 int stat(const char*, struct stat*);
