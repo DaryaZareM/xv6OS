@@ -7,6 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 #include "childrenArray.h"
+#include "timeElem.h"
 
 struct {
   struct spinlock lock;

@@ -10,6 +10,7 @@ struct sleeplock;
 struct stat;
 struct superblock;
 struct childrenArray;
+struct timeElem;
 
 // bio.c
 void            binit(void);

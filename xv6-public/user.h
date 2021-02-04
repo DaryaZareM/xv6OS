@@ -1,7 +1,7 @@
 struct stat;
 struct rtcdate;
 struct childrenArray;
-
+struct timeElem;
 
 // system calls
 int fork(void);
