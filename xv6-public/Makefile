@@ -185,6 +185,7 @@ UPROGS=\
 	_getParentIDTest\
 	_getSyscallCounterTest\
 	_setpriorityTest\
+	_changePolicyTest\
 
 
 
@@ -261,6 +262,7 @@ EXTRA=\
 	getParentIDTest.c\
 	getSyscallCounterTest.c\
 	setpriorityTest.c\
+	changePolicyTest.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 

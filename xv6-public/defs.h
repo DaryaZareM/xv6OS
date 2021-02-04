@@ -10,6 +10,7 @@ struct sleeplock;
 struct stat;
 struct superblock;
 struct childrenArray;
+//int    schedulePolicy;
 
 // bio.c
 void            binit(void);
@@ -125,6 +126,7 @@ int             getParentID(void);
 int             getChildren(struct childrenArray*);
 int             getSyscallCounter(int);
 int             setPriority(int);
+int             changePolicy(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

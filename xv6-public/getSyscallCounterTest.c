@@ -3,9 +3,6 @@
 #include "user.h"
 
 #include <stddef.h>
-//#include <stdlib.h>
-//#include <iostream>
-
 
 int main(int argc, char *argv[]){
 
@@ -29,7 +26,6 @@ int main(int argc, char *argv[]){
               sysCallID = sysCallID *10 + (argv[1][i] - 48);
               i++;
           }
-
      }
     // get output of getSyscallCounter syscall
     printf(1, "Number of times sysCall with %s has been called by this process: %d\n", argv[1], getSyscallCounter(sysCallID));

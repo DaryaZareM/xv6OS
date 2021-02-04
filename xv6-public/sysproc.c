@@ -118,3 +118,11 @@ sys_setPriority(void){
   return setPriority(priority);
 
 }
+
+int 
+sys_changePolicy(void)
+{
+  int policy;
+  argint(0, &policy);
+  return changePolicy(policy);
+}

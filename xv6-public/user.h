@@ -2,7 +2,6 @@ struct stat;
 struct rtcdate;
 struct childrenArray;
 
-
 // system calls
 int fork(void);
 int exit(void) __attribute__((noreturn));
@@ -29,6 +28,7 @@ int getParentID(void);
 int getChildren(struct childrenArray*);
 int getSyscallCounter(int);
 int setPriority(int);
+int changePolicy(int);
 
 // ulib.c
 int stat(const char*, struct stat*);
