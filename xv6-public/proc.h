@@ -51,6 +51,11 @@ struct proc {
   char name[16];               // Process name (debugging)
   int syscallCount[50];        // An array to keep track of the number of calling every sysCall
   int priority;                // process prity. highest = 1 and lowest = 6 default = 3 invalid = 5
+  int ctime;                  // Process creation time
+  int etime;                   // End time
+  int stime;                   //process SLEEPING time
+  int retime;                  //process READY(RUNNABLE) time
+  int rutime;                  //process RUNNING time
 };
 
 // Process memory is laid out contiguously, low addresses first:
@@ -58,3 +63,5 @@ struct proc {
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
+
+void updatestatistics();

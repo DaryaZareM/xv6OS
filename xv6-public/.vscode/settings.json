@@ -1,6 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
-        "sstream": "c"
+        "sstream": "c",
+        "mmu.h": "c",
+        "childrenarray.h": "c"
     }
 }
