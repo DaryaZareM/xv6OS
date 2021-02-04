@@ -238,8 +238,7 @@ fork(void)
 //TODO
 //test 
 int
-printTimeStatus(void){
-  struct proc *p = myproc();
+printTimeStatus(struct proc *p){
   cprintf("\nprocess %d terminated.\n creation time: %d termination time: %d\nready time: %d running time: %d sleeping time: %d\n",p->pid ,p->ctime,p->etime,p->retime,p->rutime,p->stime);
   return 0;
 }
@@ -255,7 +254,8 @@ exit(void)
   int fd;
 
   curproc->etime = ticks;
-  printTimeStatus();
+  //printTimeStatus();
+
 
   if(curproc == initproc)
     panic("init exiting");
@@ -291,6 +291,28 @@ exit(void)
   curproc->state = ZOMBIE;
   sched();
   panic("zombie exit");
+}
+// Exit the current process.  Does not return. and print time
+// An exited process remains in the zombie state
+// until its parent calls wait() to find out it exited.
+void
+exitT(struct timeElem *te)
+{
+  struct proc *curproc = myproc();
+
+
+  curproc->etime = ticks;
+
+  te->creationTime = curproc->ctime;
+  te->ExitTime = curproc->etime;
+  te->readyTime = curproc->retime;
+  te->runningTime = curproc->rutime;
+  te->waitTime = curproc->stime;
+
+
+  //printTimeStatus(curproc);
+
+
 }
 
 // Wait for a child process to exit and return its pid.
@@ -691,8 +713,6 @@ int
 setPriority(int priority)
 {
   struct proc *curproc = myproc();
-
-  cprintf("priority was : %d\n",curproc->priority);
 
   if (priority>0 && priority<7)
     curproc->priority = priority;

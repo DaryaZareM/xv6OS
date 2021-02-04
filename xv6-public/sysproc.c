@@ -7,6 +7,7 @@
 #include "mmu.h"
 #include "proc.h"
 #include "childrenArray.h"
+#include "timeElem.h"
 
 int
 sys_fork(void)
@@ -98,7 +99,7 @@ int sys_getParentID(void)
 int sys_getChildren(void)
 { 
   struct childrenArray *cha;
-  if(argptr(1, (void*)&cha, sizeof(*cha)) < 0)
+  if(argptr(1, (char **)&cha, sizeof(cha)) < 0)
     return -1;
   return getChildren(cha);
 }
@@ -117,4 +118,15 @@ sys_setPriority(void){
   argint(0, &priority);
   return setPriority(priority);
 
+}
+
+int
+sys_exitT(void)
+{
+  struct timeElem *t;
+  if(argptr(1, (char **)&t, sizeof(*t)) < 0)
+    return -1;
+  
+   exitT(t);
+   return 0;
 }

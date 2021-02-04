@@ -3,6 +3,7 @@
     "files.associations": {
         "sstream": "c",
         "mmu.h": "c",
-        "childrenarray.h": "c"
+        "childrenarray.h": "c",
+        "timeelem.h": "c"
     }
 }

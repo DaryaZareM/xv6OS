@@ -6,6 +6,7 @@ struct timeElem;
 // system calls
 int fork(void);
 int exit(void) __attribute__((noreturn));
+int exitT(struct timeElem*);
 int wait(void);
 int pipe(int*);
 int write(int, const void*, int);

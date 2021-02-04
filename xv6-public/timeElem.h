@@ -2,7 +2,7 @@ struct timeElem
 {
     int creationTime;
     int ExitTime;
-    int RunningTime;
+    int runningTime;
     int readyTime;
     int waitTime;
 };
