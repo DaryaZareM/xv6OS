@@ -2,6 +2,8 @@
     "C_Cpp.errorSquiggles": "Disabled",
     "files.associations": {
         "sstream": "c",
-        "childrenarray.h": "c"
+        "mmu.h": "c",
+        "childrenarray.h": "c",
+        "timeelem.h": "c"
     }
 }

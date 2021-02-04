@@ -7,6 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 #include "childrenArray.h"
+#include "timeElem.h"
 
 struct {
   struct spinlock lock;
@@ -91,6 +92,12 @@ found:
   p->pid = nextpid++;
   p->priority = 3;
 
+  p->retime = 0;
+  p->rutime = 0;
+  p->stime = 0;
+  p->etime = 0;
+  p->ctime = ticks;
+  
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -132,6 +139,7 @@ userinit(void)
     panic("userinit: out of memory?");
   inituvm(p->pgdir, _binary_initcode_start, (int)_binary_initcode_size);
   p->sz = PGSIZE;
+ // p->ctime = ticks; //TODO unuseable
   memset(p->tf, 0, sizeof(*p->tf));
   p->tf->cs = (SEG_UCODE << 3) | DPL_USER;
   p->tf->ds = (SEG_UDATA << 3) | DPL_USER;
@@ -140,7 +148,7 @@ userinit(void)
   p->tf->eflags = FL_IF;
   p->tf->esp = PGSIZE;
   p->tf->eip = 0;  // beginning of initcode.S
-
+//  p->priority = 3; //TODO UNUSEable
   safestrcpy(p->name, "initcode", sizeof(p->name));
   p->cwd = namei("/");
   // set number of called sysCalls to zero
@@ -226,6 +234,15 @@ fork(void)
   return pid;
 }
 
+
+//TODO
+//test 
+int
+printTimeStatus(struct proc *p){
+  cprintf("\nprocess %d terminated.\n creation time: %d termination time: %d\nready time: %d running time: %d sleeping time: %d\n",p->pid ,p->ctime,p->etime,p->retime,p->rutime,p->stime);
+  return 0;
+}
+
 // Exit the current process.  Does not return.
 // An exited process remains in the zombie state
 // until its parent calls wait() to find out it exited.
@@ -235,6 +252,10 @@ exit(void)
   struct proc *curproc = myproc();
   struct proc *p;
   int fd;
+
+  curproc->etime = ticks;
+  //printTimeStatus();
+
 
   if(curproc == initproc)
     panic("init exiting");
@@ -271,6 +292,28 @@ exit(void)
   sched();
   panic("zombie exit");
 }
+// Exit the current process.  Does not return. and print time
+// An exited process remains in the zombie state
+// until its parent calls wait() to find out it exited.
+void
+exitT(struct timeElem *te)
+{
+  struct proc *curproc = myproc();
+
+
+  curproc->etime = ticks;
+
+  te->creationTime = curproc->ctime;
+  te->ExitTime = curproc->etime;
+  te->readyTime = curproc->retime;
+  te->runningTime = curproc->rutime;
+  te->waitTime = curproc->stime;
+
+
+  //printTimeStatus(curproc);
+
+
+}
 
 // Wait for a child process to exit and return its pid.
 // Return -1 if this process has no children.
@@ -299,6 +342,11 @@ wait(void)
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
+        p->ctime = 0;
+        p->etime = 0;
+        p->rutime = 0;
+        p->retime = 0;
+        p->stime = 0;
         p->state = UNUSED;
         release(&ptable.lock);
         return pid;
@@ -435,7 +483,6 @@ sched(void)
 {
   int intena;
   struct proc *p = myproc();
-
   if(!holding(&ptable.lock))
     panic("sched ptable.lock");
   if(mycpu()->ncli != 1)
@@ -601,6 +648,30 @@ procdump(void)
   }
 }
 
+/*
+  This method will run every clock tick and update the statistic fields for each proc
+*/
+void updatestatistics() {
+  struct proc *p;
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    switch(p->state) {
+      case SLEEPING:
+        p->stime++;
+        break;
+      case RUNNABLE:
+        p->retime++;
+        break;
+      case RUNNING:
+        p->rutime++;
+        break;
+      default:
+        ;
+    }
+  }
+  release(&ptable.lock);
+}
+
 int
 getParentID(){
   int  parentPid;
@@ -656,8 +727,6 @@ int
 setPriority(int priority)
 {
   struct proc *curproc = myproc();
-
-  cprintf("priority was : %d\n",curproc->priority);
 
   if (priority>0 && priority<7)
     curproc->priority = priority;

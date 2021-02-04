@@ -10,7 +10,7 @@ struct sleeplock;
 struct stat;
 struct superblock;
 struct childrenArray;
-//int    schedulePolicy;
+struct timeElem;
 
 // bio.c
 void            binit(void);
@@ -107,6 +107,7 @@ int             pipewrite(struct pipe*, char*, int);
 // proc.c
 int             cpuid(void);
 void            exit(void);
+void            exitT(struct timeElem*);
 int             fork(void);
 int             growproc(int);
 int             kill(int);
