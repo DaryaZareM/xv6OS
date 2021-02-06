@@ -750,3 +750,9 @@ changePolicy(int policy){
   popcli();
   return pol;
 }
+
+void 
+setQueueLayer(int layer){
+  struct proc *curproc = myproc();
+  curproc->queueLayer = layer;
+}
