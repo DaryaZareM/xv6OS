@@ -399,16 +399,16 @@ scheduler(void)
 
         for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
           if(p1->queueLayer == 1){
-            process_group[0][count_n] = p1;
+            process_group[0][count_n[0]] = p1;
             count_n[0] += 1;
           }else if(p1->queueLayer == 2){
-            process_group[1][count_n] = p1;
+            process_group[1][count_n[1]] = p1;
             count_n[1] += 1;
           }else if(p1->queueLayer == 3){
-            process_group[2][count_n] = p1;
+            process_group[2][count_n[2]] = p1;
             count_n[2] += 1;
           }else{
-            process_group[3][count_n] = p1;
+            process_group[3][count_n[3]] = p1;
             count_n[3] += 1;
           }
         }
@@ -804,8 +804,9 @@ changePolicy(int policy){
   return pol;
 }
 
-void 
+int
 setQueueLayer(int layer){
   struct proc *curproc = myproc();
   curproc->queueLayer = layer;
+  return 0;
 }

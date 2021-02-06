@@ -126,6 +126,8 @@ sys_changePolicy(void)
   int policy;
   argint(0, &policy);
   return changePolicy(policy);
+}
+
 int
 sys_exitT(void)
 {
@@ -133,6 +135,14 @@ sys_exitT(void)
   if(argptr(1, (char **)&t, sizeof(*t)) < 0)
     return -1;
   
-   exitT(t);
-   return 0;
+  exitT(t);
+  return 0;
+}
+
+int 
+sys_setQueueLayer(void)
+{
+  int layer;
+  argint(0, &layer);
+  return setQueueLayer(layer);
 }

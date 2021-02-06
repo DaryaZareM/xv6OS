@@ -31,7 +31,7 @@ int getChildren(struct childrenArray*);
 int getSyscallCounter(int);
 int setPriority(int);
 int changePolicy(int);
-void setQueueLayer(int);
+int setQueueLayer(int);
 
 // ulib.c
 int stat(const char*, struct stat*);
