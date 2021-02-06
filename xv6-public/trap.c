@@ -108,11 +108,14 @@ trap(struct trapframe *tf)
      tf->trapno == T_IRQ0+IRQ_TIMER){
        
          //struct cpu *c = mycpu();
-       // Priority or Default Scheduling
-       if(mycpu()->schedulePolicy == DEFAULT_SCHEDUL_POLICY || mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY){
+       // Priority or Default or Multi Layered Scheduling in 1 or 2 or 3 queue
+       if(mycpu()->schedulePolicy == DEFAULT_SCHEDUL_POLICY || mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY ||
+          (mycpu()->schedulePolicy == MULTI_LAYERED_POLICY && (mycpu()->multiLayeredWinner == 1 ||
+          mycpu()->multiLayeredWinner == 2 || mycpu()->multiLayeredWinner == 3))){
           yield();
-       // Round Robin Scheduling
-       }else if(mycpu()->schedulePolicy == RR_SCHEDULE_POLICY && (ticks % QUANTUM == 0)){
+
+       // Round Robin Scheduling or Multi Layered Scheduling in 4th queue
+       }else if((mycpu()->schedulePolicy == RR_SCHEDULE_POLICY || mycpu()->multiLayeredWinner == 4) && (ticks % QUANTUM == 0)){
           yield();
        }
      }

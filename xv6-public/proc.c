@@ -392,8 +392,61 @@ scheduler(void)
       if(p->state != RUNNABLE)
         continue;
 
+      // Multi Layered Scheduling
+      int count_n[4] = {0};
+      struct proc* process_group[4][64];
+      if (mycpu()->schedulePolicy == MULTI_LAYERED_POLICY){
+
+        for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+          if(p1->queueLayer == 1){
+            process_group[0][count_n] = p1;
+            count_n[0] += 1;
+          }else if(p1->queueLayer == 2){
+            process_group[1][count_n] = p1;
+            count_n[1] += 1;
+          }else if(p1->queueLayer == 3){
+            process_group[2][count_n] = p1;
+            count_n[2] += 1;
+          }else{
+            process_group[3][count_n] = p1;
+            count_n[3] += 1;
+          }
+        }
+        // 1st queue == default
+        if(count_n[0] != 0){
+          mycpu()->multiLayeredWinner = 1;
+          p = process_group[0][count_n[0]-1];
+
+        // 2st queue == priority
+        }else if(count_n[1] != 0){
+          mycpu()->multiLayeredWinner = 2;
+          highP = process_group[1][count_n[1] - 1];
+          for(int i = 0; i < count_n[1] ; i++){
+            p1 = process_group[1][i];
+            if((p1->state == RUNNABLE) && (highP->priority < p1->priority))
+              highP = p1;
+          }
+          if(highP != 0)
+            p = highP;
+        // 3st queue == reverse priority
+        }else if(count_n[2] != 0){
+          mycpu()->multiLayeredWinner = 3;
+          highP = process_group[2][count_n[2] - 1];
+          for(int i = 0; i < count_n[2] ; i++){
+            p1 = process_group[2][i];
+            if((p1->state == RUNNABLE) && (highP->priority > p1->priority))
+              highP = p1;
+          }
+          if(highP != 0)
+            p = highP;
+        // 4st queue == Round Robin
+        }else if(count_n[3] != 0){
+          mycpu()->multiLayeredWinner = 4;
+          p = process_group[3][count_n[3] - 1];
+        }
+      }
       // Priority Scheduling
-      if(mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY){
+      else if(mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY){
         // Choose the process with highest priority (among RUNNABLEs)
         highP = p;
         for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){

@@ -25,4 +25,5 @@
 #define SYS_getSyscallCounter  24
 #define SYS_setPriority  25
 #define SYS_changePolicy 26
-#define SYS_exitT    27
+#define SYS_exitT 27
+#define SYS_setQueueLayer 28

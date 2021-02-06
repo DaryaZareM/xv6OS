@@ -109,6 +109,7 @@ extern int sys_getSyscallCounter(void);
 extern int sys_setPriority(void);
 extern int sys_changePolicy(void);
 extern int sys_exitT(void);
+extern int setQueueLayer(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,

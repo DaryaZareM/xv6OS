@@ -128,6 +128,7 @@ int             getChildren(struct childrenArray*);
 int             getSyscallCounter(int);
 int             setPriority(int);
 int             changePolicy(int);
+void            setQueueLayer(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
