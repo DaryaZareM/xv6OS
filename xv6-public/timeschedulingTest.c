@@ -6,27 +6,28 @@ int main(){
     int pid = fork();
     for(int j=0; j<30; j++){
         if (pid == 0){
+
+            if(j<5){
+            setPriority(6);
+            }else if(j<10){
+                setPriority(5);
+            }else if(j<15){
+                setPriority(4);
+            }else if(j<20){
+                setPriority(3);
+            }else if(j<25){
+                setPriority(2);
+            }else{
+                setPriority(1);
+            }
+
             pid = fork();
         }
-    }
-
-    if(pid<10){
-        setPriority(6);
-    }else if(pid<15){
-        setPriority(5);
-    }else if(pid<20){
-        setPriority(4);
-    }else if(pid<25){
-        setPriority(3);
-    }else if(pid<30){
-        setPriority(2);
-    }else{
-        setPriority(1);
     }
     
     int i;
     for(i=0; i<250; i++){  
-       // printf(1,"%d:%d\n",pid,i);
+        printf(1,"%d:%d\n",pid,i);
     }
     wait();
     wait();
@@ -35,8 +36,10 @@ int main(){
     wait();
     struct timeElem te;
     exitT(&te);
-
-    printf(1,"%d        %d\n ",pid,te.creationTime);
+    int cbt=te.runningTime;
+    int wt= te.waitTime;
+    int tt=te.ExitTime-te.creationTime;
+    printf(1,"[%d]:  CBT: %d TT:  %d WT:  %d\n ",pid,cbt,tt,wt);
 
     
     exit();

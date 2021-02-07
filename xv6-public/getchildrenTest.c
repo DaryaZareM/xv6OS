@@ -16,17 +16,20 @@ int main(){
     if (n1 > 0 && n2 > 0 && n3 > 0 && n4 > 0) { 
         
                     
-                struct childrenArray childarrp;
-                printf(1,"PID %d children are \n ", n1);
-                
-                getChildren(&childarrp);
+        int* children=(int *)malloc(sizeof(int)*20);
+        getChildren(children);
+        //struct childrenArray *childarrp = malloc (sizeof (struct childrenArray));
 
-                
-                int i=0;
-                while( i < (childarrp.len)){
-                    printf(1," %d/ ",childarrp.children[i]);
-                    i=i+1;
-                }
+        printf(1,"PID %d children are \n ", n1);
+        
+        printf(1,"1st: : %d \n",children[0]);
+        
+        int i=0;
+        while( children[i]>0){
+            printf(1," %d/ ",children[i]);
+            i=i+1;
+        }
+        printf(1,"\n");
                     
     }
 

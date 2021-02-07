@@ -734,7 +734,7 @@ getParentID(){
 
 }
 int
-getChildren(struct childrenArray* childs){
+getChildren(int* childs){
     
     struct proc *curproc = myproc();
     struct proc *p;
@@ -746,18 +746,18 @@ getChildren(struct childrenArray* childs){
 
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->parent->pid == currentPID){
-        childs->children[count] = p->pid;
+        childs[count] = p->pid;
         count++;
       }
     }
-    childs->len = count;
-    
+    childs[count]=0;
+    //TODO
     release(&ptable.lock);
 
     //print:
     int it = 0;
-    while(it<childs->len){
-      cprintf(" %d/",childs->children[it]);
+    while(childs[it]!=0){
+      cprintf(" %d/",childs[it]);
       it++;
     }
     
