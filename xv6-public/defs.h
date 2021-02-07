@@ -124,7 +124,7 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int             getParentID(void);
-int             getChildren(struct childrenArray*);
+int             getChildren(int*);
 int             getSyscallCounter(int);
 int             setPriority(int);
 int             changePolicy(int);

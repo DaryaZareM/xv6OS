@@ -96,12 +96,13 @@ int sys_getParentID(void)
 {
   return getParentID();
 }
-int sys_getChildren(void)
-{ 
-  struct childrenArray *cha;
-  if(argptr(1, (char **)&cha, sizeof(cha)) < 0)
+
+int
+sys_getChildren(void){
+  int* chs;
+  if(argptr(0, (void *)&chs,sizeof(*chs)) < 0)
     return -1;
-  return getChildren(cha);
+  return getChildren(chs);
 }
 
 int 
@@ -132,7 +133,7 @@ int
 sys_exitT(void)
 {
   struct timeElem *t;
-  if(argptr(1, (char **)&t, sizeof(*t)) < 0)
+  if(argptr(0, (char **)&t, sizeof(*t)) < 0)
     return -1;
   
   exitT(t);

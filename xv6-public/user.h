@@ -27,7 +27,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getParentID(void);
-int getChildren(struct childrenArray*);
+int getChildren(int*);
 int getSyscallCounter(int);
 int setPriority(int);
 int changePolicy(int);
