@@ -810,3 +810,18 @@ setQueueLayer(int layer){
   curproc->queueLayer = layer;
   return 0;
 }
+
+// find if higher priority layer proc is available in multi layered scheduling
+int
+findHigherPriorityProc(void){
+  struct proc *p;
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->queueLayer < myproc()->queueLayer){
+      release(&ptable.lock);
+      return 1;
+    }
+  }
+  release(&ptable.lock);
+  return 0;
+}

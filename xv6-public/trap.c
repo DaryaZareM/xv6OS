@@ -15,6 +15,11 @@ extern uint vectors[];  // in vectors.S: array of 256 entry pointers
 struct spinlock tickslock;
 uint ticks;
 
+struct {
+  struct spinlock lock;
+  struct proc proc[NPROC];
+} ptable;
+
 void
 tvinit(void)
 {
@@ -53,6 +58,14 @@ trap(struct trapframe *tf)
       acquire(&tickslock);
       ticks++;
       updatestatistics();     //will update proc statistic every clock tick
+
+      // find if higher priority layer proc is available in multi layered scheduling
+      if(mycpu()->schedulePolicy == MULTI_LAYERED_POLICY){
+        int higherPriorityDetected = findHigherPriorityProc();
+        if(higherPriorityDetected == 1){
+          yield();
+        }
+      }
       wakeup(&ticks);
       release(&tickslock);
     }

@@ -129,6 +129,7 @@ int             getSyscallCounter(int);
 int             setPriority(int);
 int             changePolicy(int);
 int             setQueueLayer(int);
+int             findHigherPriorityProc(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
