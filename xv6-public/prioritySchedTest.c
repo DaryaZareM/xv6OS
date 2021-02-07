@@ -24,16 +24,12 @@ int main(){
             pid = fork();
         }
     }
-    
     int i;
     for(i=0; i<250; i++){  
         printf(1,"%d:%d\n",pid,i);
-    }
-    wait();
-    wait();
-    wait();
-    wait();
-    wait();
+    }    
+    while (wait()!=-1){}
+    
     struct timeElem te;
     exitT(&te);
     int cbt=te.runningTime;
