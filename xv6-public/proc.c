@@ -378,6 +378,8 @@ scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
   c->proc = 0;
+  int winner = 0;
+  //int winner = 0;
   
   for(;;){
     // Enable interrupts on this processor.
@@ -393,60 +395,67 @@ scheduler(void)
         continue;
 
       // Multi Layered Scheduling
-      int count_n[4] = {0};
-      struct proc* process_group[4][64];
+      int count_1 = 0;
+      int count_2 = 0;
+      int count_3 = 0;
+      int count_4 = 0;
+      struct proc *layer_1_p = p;
+      //struct proc *layer_2_p = p;
+      //struct proc *layer_3_p;
+      struct proc *layer_4_p = p;
+      struct proc *highP_layer_2 = p;
+      struct proc *highP_layer_3 = p;
+
       if (mycpu()->schedulePolicy == MULTI_LAYERED_POLICY){
-
+        
         for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
-          if(p1->queueLayer == 1){
-            process_group[0][count_n[0]] = p1;
-            count_n[0] += 1;
-          }else if(p1->queueLayer == 2){
-            process_group[1][count_n[1]] = p1;
-            count_n[1] += 1;
-          }else if(p1->queueLayer == 3){
-            process_group[2][count_n[2]] = p1;
-            count_n[2] += 1;
-          }else{
-            process_group[3][count_n[3]] = p1;
-            count_n[3] += 1;
+          if((p1->state == RUNNABLE) && p1->queueLayer == 1){
+            p = p1;
+            count_1 += 1;
+            break;
+          }else if((p1->state == RUNNABLE) && p1->queueLayer == 2){
+            if(count_2 == 0){
+              highP_layer_2 = p1;
+            }else{
+              if(p1->priority > highP_layer_2->priority){
+                highP_layer_2 = p1;
+              }
+            }
+            count_2 += 1;
+          }else if((p1->state == RUNNABLE) && p1->queueLayer == 3){
+            if(count_3 == 0){
+              highP_layer_3 = p1;
+            }else{
+              if(p1->priority < highP_layer_3->priority){
+                highP_layer_3 = p1;
+              }
+            }
+            count_3 += 1;
+          }else if((p1->state == RUNNABLE) && p1->queueLayer == 4){
+            layer_4_p = p1;
+            count_4 += 1;
           }
-        }
-        // 1st queue == default
-        if(count_n[0] != 0){
-          mycpu()->multiLayeredWinner = 1;
-          p = process_group[0][count_n[0]-1];
+         }
 
+        // 1st queue == default
+        if(count_1 != 0){
+          p = layer_1_p;
+          winner = 1;
         // 2st queue == priority
-        }else if(count_n[1] != 0){
-          mycpu()->multiLayeredWinner = 2;
-          highP = process_group[1][count_n[1] - 1];
-          for(int i = 0; i < count_n[1] ; i++){
-            p1 = process_group[1][i];
-            if((p1->state == RUNNABLE) && (highP->priority < p1->priority))
-              highP = p1;
-          }
-          if(highP != 0)
-            p = highP;
+        }else if(count_2 != 0){
+          p = highP_layer_2;
+          winner = 2;
         // 3st queue == reverse priority
-        }else if(count_n[2] != 0){
-          mycpu()->multiLayeredWinner = 3;
-          highP = process_group[2][count_n[2] - 1];
-          for(int i = 0; i < count_n[2] ; i++){
-            p1 = process_group[2][i];
-            if((p1->state == RUNNABLE) && (highP->priority > p1->priority))
-              highP = p1;
-          }
-          if(highP != 0)
-            p = highP;
+        }else if(count_3 != 0){
+          p = highP_layer_3;
+          winner = 3;
         // 4st queue == Round Robin
-        }else if(count_n[3] != 0){
-          mycpu()->multiLayeredWinner = 4;
-          p = process_group[3][count_n[3] - 1];
+        }else if(count_4 != 0){
+          p = layer_4_p;
+          winner = 4;
         }
-      }
-      // Priority Scheduling
-      else if(mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY){
+       
+       }else if(mycpu()->schedulePolicy == PRIORITY_SCHEDULE_POLICY){
         // Choose the process with highest priority (among RUNNABLEs)
         highP = p;
         for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
@@ -459,6 +468,7 @@ scheduler(void)
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
+      c->multiLayeredWinner = winner;
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
@@ -811,7 +821,7 @@ setQueueLayer(int layer){
   return 0;
 }
 
-// find if higher priority layer proc is available in multi layered scheduling
+//find if higher priority layer proc is available in multi layered scheduling
 int
 findHigherPriorityProc(void){
   struct proc *p;

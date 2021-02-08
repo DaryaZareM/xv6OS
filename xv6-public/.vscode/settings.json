@@ -4,6 +4,9 @@
         "sstream": "c",
         "mmu.h": "c",
         "childrenarray.h": "c",
-        "timeelem.h": "c"
+        "timeelem.h": "c",
+        "user.h": "c",
+        "stat.h": "c",
+        "types.h": "c"
     }
 }

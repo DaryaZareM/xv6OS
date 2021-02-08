@@ -2,7 +2,13 @@
 #include "stat.h"
 #include "user.h"
 #include "timeElem.h"
+#include "param.h"
+
 int main(){
+
+    // set sched policy to priority sched
+    changePolicy(PRIORITY_SCHEDULE_POLICY);
+
     int pid = fork();
     for(int j=0; j<30; j++){
         if (pid == 0){

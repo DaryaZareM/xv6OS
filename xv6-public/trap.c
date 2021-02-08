@@ -58,16 +58,16 @@ trap(struct trapframe *tf)
       acquire(&tickslock);
       ticks++;
       updatestatistics();     //will update proc statistic every clock tick
-
-      // find if higher priority layer proc is available in multi layered scheduling
-      if(mycpu()->schedulePolicy == MULTI_LAYERED_POLICY){
-        int higherPriorityDetected = findHigherPriorityProc();
-        if(higherPriorityDetected == 1){
-          yield();
-        }
-      }
       wakeup(&ticks);
       release(&tickslock);
+
+      //find if higher priority layer proc is available in multi layered scheduling
+    //   if(mycpu()->schedulePolicy == MULTI_LAYERED_POLICY){
+    //    int higherPriorityDetected = findHigherPriorityProc();
+    //    if(higherPriorityDetected == 1){
+    //      yield();
+    //    }
+    //  }
     }
     lapiceoi();
     break;
@@ -132,6 +132,7 @@ trap(struct trapframe *tf)
           yield();
        }
      }
+      
 
   // Check if the process has been killed since we yielded
   if(myproc() && myproc()->killed && (tf->cs&3) == DPL_USER)

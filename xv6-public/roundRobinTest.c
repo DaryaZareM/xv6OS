@@ -2,7 +2,12 @@
 #include "stat.h"
 #include "user.h"
 #include "timeElem.h"
+#include "param.h"
+
 int main(){
+    // set sched policy to round robin sched
+    changePolicy(RR_SCHEDULE_POLICY);
+
     int pid = fork();
     for(int j=0; j<10; j++){
         if (pid == 0){
