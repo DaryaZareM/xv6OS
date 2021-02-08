@@ -130,6 +130,7 @@ int             setPriority(int);
 int             changePolicy(int);
 int             setQueueLayer(int);
 int             findHigherPriorityProc(void);
+int             totalTime(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

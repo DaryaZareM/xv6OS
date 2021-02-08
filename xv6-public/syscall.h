@@ -27,3 +27,4 @@
 #define SYS_changePolicy 26
 #define SYS_exitT 27
 #define SYS_setQueueLayer 28
+#define SYS_totalTime 29

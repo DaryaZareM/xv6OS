@@ -32,6 +32,7 @@ int getSyscallCounter(int);
 int setPriority(int);
 int changePolicy(int);
 int setQueueLayer(int);
+int totalTime(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

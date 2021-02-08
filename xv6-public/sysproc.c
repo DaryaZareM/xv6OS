@@ -147,3 +147,10 @@ sys_setQueueLayer(void)
   argint(0, &layer);
   return setQueueLayer(layer);
 }
+
+int
+sys_totalTime(void){
+  int ppid;
+  argint(0, &ppid);
+  return totalTime(ppid);
+}
