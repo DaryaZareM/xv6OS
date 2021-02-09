@@ -20,9 +20,7 @@ int main(){
         getChildren(children);
         //struct childrenArray *childarrp = malloc (sizeof (struct childrenArray));
 
-        printf(1,"PID %d children are \n ", n1);
-        
-        printf(1,"1st: : %d \n",children[0]);
+        printf(1,"PID %d children are \n ", getpid());
         
         int i=0;
         while( children[i]>0){

@@ -760,16 +760,9 @@ getChildren(int* childs){
         count++;
       }
     }
-    childs[count]=0;
-    //TODO
+
     release(&ptable.lock);
 
-    //print:
-    int it = 0;
-    while(childs[it]!=0){
-      cprintf(" %d/",childs[it]);
-      it++;
-    }
     
     return 1;
 }
@@ -784,8 +777,6 @@ getSyscallCounter(int sysID){
 }
 
 // Change Process priority
-
-
 int
 setPriority(int priority)
 {
@@ -796,11 +787,7 @@ setPriority(int priority)
   else
   {
     curproc->priority = 5;
-    priority = 5;
   }
-  
-  cprintf("now priority is : %d\n",curproc->priority);
-
   return priority;
 }
 
@@ -846,7 +833,6 @@ totalTime(int parentpid){
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->parent->pid == parentpid){
-      
       cbt[p->priority]+= p->rutime;
       cbt[0] += p->rutime;
       tt[p->priority]+= p->etime-p->ctime;
@@ -861,15 +847,11 @@ totalTime(int parentpid){
 
   for(int i=0; i<7;i++){
     if(i==0){
-      cprintf("total average: cbt=%d\t TT=%d\tWT=%d\n",cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
+      cprintf("total average: cbt=%d  TT=%d WT=%d ",cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
     }
     else{
-      cprintf("queue [%d] average: cbt=%d\t TT=%d\tWT=%d\n",i,cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
+      cprintf("Priority Queue [%d] average: cbt=%d  TT=%d  WT=%d\n",i,cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
     }
   }
-  cprintf("count:%d\n",count[0]);
   return 0;
-
-
-
 }
