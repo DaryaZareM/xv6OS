@@ -28,3 +28,5 @@
 #define SYS_exitT 27
 #define SYS_setQueueLayer 28
 #define SYS_totalTime 29
+#define SYS_leyerAve 30
+#define SYS_rrAve 31

@@ -111,6 +111,8 @@ extern int sys_changePolicy(void);
 extern int sys_exitT(void);
 extern int sys_setQueueLayer(void);
 extern int sys_totalTime(void);
+extern int sys_leyerAve(void);
+extern int sys_rrAve(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -142,6 +144,8 @@ static int (*syscalls[])(void) = {
 [SYS_exitT] sys_exitT,
 [SYS_setQueueLayer] sys_setQueueLayer,
 [SYS_totalTime] sys_totalTime,
+[SYS_leyerAve] sys_leyerAve,
+[SYS_rrAve] sys_rrAve,
 };
 
 void

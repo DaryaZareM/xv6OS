@@ -154,3 +154,16 @@ sys_totalTime(void){
   argint(0, &ppid);
   return totalTime(ppid);
 }
+int
+sys_leyerAve(void){
+  int ppid;
+  argint(0, &ppid);
+  return leyerAve(ppid);
+}
+
+int
+sys_rrAve(void){
+  int ppid;
+  argint(0, &ppid);
+  return rrAve(ppid);
+}

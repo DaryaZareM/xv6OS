@@ -826,7 +826,7 @@ findHigherPriorityProc(void){
 int
 totalTime(int parentpid){
   struct proc *p;
-  int count[7]={1,1,1,1,1,1,1};
+  int count[7]={0};
   int cbt[7]={0};
   int tt[7]={0};
   int wt[7]={0};
@@ -847,11 +847,65 @@ totalTime(int parentpid){
 
   for(int i=0; i<7;i++){
     if(i==0){
-      cprintf("total average: cbt=%d  TT=%d WT=%d ",cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
+      cprintf("total average: cbt=%d  TT=%d WT=%d \n",cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
     }
     else{
       cprintf("Priority Queue [%d] average: cbt=%d  TT=%d  WT=%d\n",i,cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
     }
   }
+  return 0;
+}
+int
+leyerAve(int parentpid){
+  struct proc *p;
+  int count[5]={0};
+  int cbt[5]={0};
+  int tt[5]={0};
+  int wt[5]={0};
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->parent->pid == parentpid){
+      cbt[p->queueLayer]+= p->rutime;
+      cbt[0] += p->rutime;
+      tt[p->queueLayer]+= p->etime-p->ctime;
+      tt[0] += p->etime-p->ctime;
+      wt[p->queueLayer]+= p->stime;
+      wt[0] += p->stime;
+      count[p->queueLayer]+=1;
+      count[0]+=1;
+    }
+  }
+  release(&ptable.lock);
+
+  for(int i=0; i<5;i++){
+    if(i==0){
+      cprintf("total average: cbt=%d  TT=%d WT=%d \n",cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
+    }
+    else{
+      cprintf("Leyer Queue [%d] average: cbt=%d  TT=%d  WT=%d\n",i,cbt[i]/count[i],tt[i]/count[i],wt[i]/count[i]);
+    }
+  }
+  return 0;
+}
+
+int
+rrAve(int parentpid){
+  struct proc *p;
+  int count=0;
+  int cbt=0;
+  int tt=0;
+  int wt=0;
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->parent->pid == parentpid){
+      cbt += p->rutime;
+      tt += p->etime-p->ctime;
+      wt += p->stime;
+      count +=1;
+    }
+  }
+  release(&ptable.lock);
+  
+      cprintf("total average: cbt=%d  TT=%d WT=%d \n",cbt/count,tt/count,wt/count);
   return 0;
 }

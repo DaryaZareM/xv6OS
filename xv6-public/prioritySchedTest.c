@@ -10,7 +10,7 @@ int main(){
     changePolicy(PRIORITY_SCHEDULE_POLICY);
 
     int pid = fork();
-    
+    setPriority(6);
     for(int j=0; j<30; j++){
         if (pid != 0 ){
             pid = fork();
@@ -33,7 +33,7 @@ int main(){
     }
     
     int i;
-    for(i=0; i<20; i++){  
+    for(i=0; i<250; i++){  
         printf(1,"|%d:%d|\n",getpid(),i);
     }    
     
@@ -44,9 +44,9 @@ int main(){
     int wt= te.waitTime;
     int tt=te.ExitTime-te.creationTime;
 
-    sleep(500);
+    sleep(1500);
     printf(1,"[%d]:  CBT: %d TT:  %d WT:  %d\n ",getpid(),cbt,tt,wt);
-    sleep(500);
+    sleep(1500);
     if(pid>0){
         totalTime(getpid());
     }

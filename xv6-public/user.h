@@ -33,6 +33,8 @@ int setPriority(int);
 int changePolicy(int);
 int setQueueLayer(int);
 int totalTime(int);
+int leyerAve(int);
+int rrAve(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

@@ -131,6 +131,8 @@ int             changePolicy(int);
 int             setQueueLayer(int);
 int             findHigherPriorityProc(void);
 int             totalTime(int);
+int             leyerAve(int);
+int             rrAve(int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
