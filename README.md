@@ -6,7 +6,10 @@ getChildren: return array of children IDs
 getSyscallCaounter: return numbet of times this process has called
 
 scheduling methods:
-roundrobin
+
+round-robin Scheduling
+
 priority Scheduling
-multy queue
+
+multy queue Scheduling
 
